@@ -33,6 +33,14 @@ class PersonIf
 
 class Person: public PersonIf
 {
+    private:
+    std::string name;
+    std::string surname;
+    std::string address;
+    int age;
+    std::string pesel;
+    std::string date_of_birth;
+    int licznik=1;
     public:
     Person();
     Person( const std::string& _name, 
@@ -42,31 +50,37 @@ class Person: public PersonIf
             const std::string& _pesel,
             const std::string& _date_of_birth,
              int _licznik); 
-    
-    const std::string & get_name();
+    const std::string &Person::get_name() const{return name;}  
+    const std::string & Person::get_surname() const{return surname;} 
+    const std::string & Person::get_address() const{return address;}  
+    const int Person::get_age() const{return age;} 
+    const std::string Person::get_date_of_birth() const{return date_of_birth;}  
+    const std::string Person::get_pesel() const{return pesel;}  
+    const int Person::get_licznik() const{return licznik;}
+  /*  const std::string & get_name();
     const std::string & get_surname();
     const std::string & get_address();  
     const int get_age(); 
     const std::string get_date_of_birth();  
     const std::string get_pesel();  
     const int get_licznik();
-
+*/
     friend std::ostream& operator<<(std::ostream& s,const Person & p);
+
     friend std::ostream& operator<<(std::ostream& r, std::pair<const std::string, std::shared_ptr<Person>> p);
+
+    Person get_random_person();
 
     ~Person();
 
-    private:
-    std::string name;
-    std::string surname;
-    std::string address;
-    int age;
-    std::string pesel;
-    std::string date_of_birth;
-    int licznik=1;
+    
 };
 
-Person get_random_person();
+
+
+    
+
+
 struct Comp_name
 {
     bool operator()(const std::shared_ptr<Person>& p1, const std::shared_ptr<Person>& p2)const
