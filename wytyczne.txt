@@ -1,0 +1,78 @@
+1) Posiadamy interfejs PersonIf:
+
+class PersonIf {
+   public:
+       virtual const std::string & get_name() const = 0;
+       virtual const std::string & get_surname() const = 0;
+       virtual const std::string & get_address() const = 0;
+
+       virtual const int get_age() const = 0;
+       // zwróci string w formacie "YYYY.MM.DD" 
+       virtual const std::string get_date_of_birth() const = 0;
+       virtual const long long get_pesel() const = 0;
+}
+
+2) Trzeba stworzyć klasę Person, która implementuje powyższy interfejs.
+
+class Person : public PersonIf {
+    ...
+}
+
+3) Potrzebujemy generatora osób. Osoby powinny spełniać zgodność wieku z numerem pesel.
+Pesel wszystkich wygenerowanych osób musi spełniać kryteria peselu dla pierwszych 6 cyfr.
+5 ostatnich cyfr - może być losowych(nie ma potrzeby umieszczania sumy kontrolnej i płci)
+
+YYMMDDabcde 
+- YY - ostatnie 2 cyfry roku urodzenia
+- MM - numer miesiąc dla osób sprzed 2000, lub numer miesiąca + 20 dla osób po 2000
+- DD - numer dnia
+- abcde - losowe z zakresu 00000-99999
+
+Przykład, dla osoby urodzonej 10 października 1990 roku:
+       
+       virtual const int get_age() const = 0;
+       // zwraca liczbę np. 29
+       
+       virtual const std::string get_date_of_birth() const = 0;
+       // zwróci string "1990.10.10"
+       
+       virtual const long long get_pesel() const = 0;
+       // zwróci liczbę 901010nnnnn
+
+4) tworzymy struktury
+[0] std::map<'pesel', std::shared_ptr<Person>> baza;
+oraz zbiory:
+[1] std::set<std::shared_ptr<Person>> sort_name;
+[2] std::set<std::shared_ptr<Person>> sort_surname;
+[3] std::set<std::shared_ptr<Person>> sort_address;
+[4] std::set<std::shared_ptr<Person>> sort_age;
+[5] std::set<std::shared_ptr<Person>> sort_dob;//date of birth
+
+
+5) tworzymy funkcję 
+void get_data(const int type, const int start_position, const int amount)
+
+pierwszy typ może być również typu enum
+void get_data(const my_enum_type type, int start_position, int amount)
+
+
+gdzie type 
+- według czego mamy podac dane, zakres [0-5], czyli odpowiednio pesel, imię, nazwisko, adres, wiek, data urodzenia.
+- start_position, od której pozycji chcemy wypisywac dane,
+- amount - ile pozycji wypisać.
+
+
+10) program ma przyjmować 1+3*N parametrów, gdzie N to w zakresie od 1-10
+
+Pierwszy argument - ilość osób które mają zostac wygenerowane i umieszczone w strukturach, zakres : 1-1.000.000
+argument 2,3,4 - odpowiednio wg. jakiego pola ma wypisac posortowane dane, od jakiej pozycji[numerujemy od 1], i ilosć pozycji do wypisania
+argument 5,6,7 - jak wyżej
+...
+
+
+Przykład 
+<program> 10000 1 1 1 2 20 50
+stworzy 10k osób, 
+ze wszystkich osób posortowanych po imieniu, wypisze pierwszą,
+ze wszystkich osób posortowanych po nazwisku, wypisze 50 osób, od pozycji 20, czyli osoby 20-69
+zakończy się.
