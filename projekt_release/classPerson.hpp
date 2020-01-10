@@ -20,7 +20,7 @@ class Person: public PersonIf
     int age;
     std::string pesel;
     std::string date_of_birth;
-    int licznik;
+    int licznik=1;
     public:
     Person();
     Person( const std::string& _name, 

@@ -65,7 +65,7 @@ Person Person::get_random_person()
         else if( (year>=1900)&&(year<1910) ) { pesel = "0" + std::to_string(year-1900) + month + day + nnnnn;}
         else { pesel = std::to_string(year-1900) + month + day + nnnnn;}
         std::string date_of_birth =std::to_string(year) + "." + month + "." + day;
-        int licznik=1;
+       
         return Person(
             name,
             surname,

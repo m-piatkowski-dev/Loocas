@@ -9,30 +9,24 @@
 #include <memory>
 #include <iterator>
 #include <algorithm>
-
-int main()
+   
+int main(int argc, char* argv[])
 {
     std::map<std::string, std::shared_ptr<Person>> baza;
     std::srand(time(nullptr));
     Person s;
     
-    for(unsigned int i=0; i<10; ++i)
+    for( int i=0; i<std::stoi(argv[1]); ++i)
     { 
         std::shared_ptr<Person> p=std::make_shared<Person>(s.get_random_person());
-        baza.emplace(std::pair<std::string, std::shared_ptr<Person>> (p->get_pesel(),p));
+        baza.insert({p->get_pesel(),p});
     }
-    //print_container(baza);
-    std::cout<<"######################################################\n"; 
-    std::cout<<"Wyświetl posortowane po: \n0.PESEL\n1.NAME\n2.SURNAME\n3.ADDRESS\n4.AGE\n5.DOB: ";
-    int type, start_position, amount;
-    std::cin>>type;
-    std::cin>>start_position;
-    std::cin>>amount;
-    get_data(baza, type, start_position, amount);
-   
-    
-    //auto it=sort_name.begin();
-   //ls std::cout<<(*it).use_count()<<" <-ilość sptr "<<sizeof(*it)<<"<- rozmiar wskaźnika sptr "<<sizeof(s)<<"<- rozmiar obiektu klasy Person\n";
+    print_container(baza);
+    std::cout<<"WZORZEC /|\\ \n######################################################\n"; 
 
+    for (int i=0; i<argc-2; i+=3 )
+    {
+        get_data(baza,std::stoi(argv[i+2]),std::stoi(argv[i+3]),std::stoi(argv[i+4]));
+    }    
 return 0;
 }
