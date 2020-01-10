@@ -1,4 +1,3 @@
-#include "projekt_r.hpp"
 #include "struktury.hpp"
 #include <map>
 #include <iostream>

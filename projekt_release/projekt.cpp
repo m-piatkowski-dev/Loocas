@@ -1,4 +1,4 @@
-#include "projekt_r.hpp"
+#include "function.hpp"
 #include "classPerson.hpp"
 #include <map>
 #include <iostream>
